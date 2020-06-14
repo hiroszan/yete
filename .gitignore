@@ -3,7 +3,7 @@ node_modules/
 yarn.lock
 yarn-error.log
 package-lock.json
-dist/*
+dist/
 **/.DS_Store
 **/.vs
 **/.vscode/*
@@ -12,4 +12,5 @@ dist/*
 !**/.vscode/launch.template.json
 !**/.vscode/extensions.json
 .idea
+log/
 

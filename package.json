@@ -4,7 +4,8 @@
   "description": "yaml + handlebars template engine",
   "main": "app.js",
   "scripts": {
-    "start": "node ./dist/app.js"
+    "start": "tsc && node ./dist/app.js",
+    "build": "tsc"
   },
   "keywords": [
     "yaml",
@@ -13,5 +14,12 @@
     "template"
   ],
   "author": "hiro@zoniworks.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^14.0.13",
+    "handlebars": "^4.7.6",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.5.0",
+    "yaml": "^1.10.0"
+  }
 }

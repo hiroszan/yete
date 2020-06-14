@@ -1,1 +1,3 @@
-console.log('hello')
+import logger from './logger'
+
+logger.info('hello')
