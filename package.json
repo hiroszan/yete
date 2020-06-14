@@ -1,0 +1,17 @@
+{
+  "name": "yahl",
+  "version": "1.0.0",
+  "description": "yaml + handlebars template engine",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./dist/app.js"
+  },
+  "keywords": [
+    "yaml",
+    "handlebars",
+    "text",
+    "template"
+  ],
+  "author": "hiro@zoniworks.com",
+  "license": "MIT"
+}
