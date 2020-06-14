@@ -1,0 +1,15 @@
+node_modules/
+.node_modules/
+yarn.lock
+yarn-error.log
+package-lock.json
+dist/*
+**/.DS_Store
+**/.vs
+**/.vscode/*
+!**/.vscode/tasks.json
+!**/.vscode/settings.template.json
+!**/.vscode/launch.template.json
+!**/.vscode/extensions.json
+.idea
+
