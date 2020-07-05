@@ -5,6 +5,8 @@ yarn-error.log
 package-lock.json
 dist/
 build/
+publish/
+example/output/
 **/.DS_Store
 **/.vs
 **/.vscode/*

@@ -62,6 +62,11 @@ export default class Runner {
     fname = fname.split('.').slice(0, -1).join('.');
     const outputPath = path.resolve(this.config.outputDir, fname + this.config.outputExt);
 
+    const dir = path.dirname(outputPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+
     fs.writeFileSync(outputPath, content);
     logger.info('render success: ', { output: outputPath });
   }

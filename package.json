@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "tsc && node ./build/app.js -c \"./example/yete.config.json5\"",
-    "build": "tsc"
+    "build": "tsc",
+    "pub": "tsc && pkg --out-path \"publish\" ."
   },
   "keywords": [
     "yaml",
@@ -13,6 +14,12 @@
     "text",
     "template"
   ],
+  "bin": "./build/app.js",
+  "pkg": {
+    "targets": [
+      "node12-win-x64"
+    ]
+  },
   "author": "hiro@zoniworks.com",
   "license": "MIT",
   "dependencies": {
