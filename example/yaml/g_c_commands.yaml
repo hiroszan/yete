@@ -13,8 +13,7 @@
 #     - string
 
 # CLASS
--
-  className: g_c_DlgChSpeak
+- className: g_c_DlgChSpeak
   desc: 지정된 캐릭터가 지정된 대사를 말한다.
   properties:
     #
@@ -27,7 +26,7 @@
     - type: string
       name: dlg
       desc: 지정된 대사
-      default: ""
+      default: ''
 
     - type: number
       name: pos

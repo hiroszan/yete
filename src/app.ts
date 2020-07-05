@@ -1,27 +1,48 @@
 import logger from './logger';
-import YAML from 'yaml';
 import fs from 'fs';
 import path from 'path';
-import ejs from 'ejs';
+import yargs = require('yargs');
+import JSON5 from 'json5';
+import Runner from './runner';
+import { exit } from 'process';
 
-const fpath = path.resolve('./example/condition/conditions');
-const structure = fs.readFileSync(fpath + '.yaml', 'utf8');
-const template = fs.readFileSync(fpath + '.ejs', 'utf8');
+const usage = `=======================================================================
 
-logger.info('yaml: ', { filepath: fpath });
-logger.info('ejs: ', { filepath: fpath });
+  Yaml - Ejs Template Engine
 
-const obj = YAML.parse(structure);
-logger.info('yaml to object', { root: obj });
+  Usage:  
+    yete -c "./example/yete.config.json5"
 
-const fullpath = path.resolve('./example/helper.js');
-let relpath = path.relative(__dirname, fullpath);
+-----------------------------------------------------------------------`;
+const argv = yargs.usage(usage).options({
+  c: { type: 'string', alias: 'config', required: true },
+}).argv;
 
-relpath = relpath.split('.').slice(0, -1).join('.');
-logger.info('helper: ', { path: relpath });
+const configPath = path.resolve(argv.c);
+if (!fs.existsSync(configPath)) {
+  logger.error('file not found.', { path: configPath });
+  exit(1);
+}
 
-const helper = require(relpath);
+try {
+  // load config
+  const config: YeteConfig = JSON5.parse(fs.readFileSync(configPath, 'utf8'));
 
-const output = ejs.render(template, { root: obj, helper });
-const outputPath = path.resolve('./example/output/conditions.cs');
-fs.writeFileSync(outputPath, output);
+  // load helper
+  let helper = {};
+  if (config.helper) {
+    let fullpath = path.resolve(config.helper);
+    let relpath = path.relative(__dirname, fullpath);
+    logger.info('helper js: ', { path: fullpath, rel: relpath });
+
+    helper = require(relpath);
+    logger.info('helper', helper);
+  }
+
+  // run runners
+  const runners = config.runs.map((run) => new Runner(run, helper));
+  runners.forEach((runner) => runner.run());
+  exit(0);
+} catch (error) {
+  logger.error(error);
+}

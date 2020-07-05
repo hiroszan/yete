@@ -13,11 +13,9 @@
 #     - string
 
 # CLASS
--
-  className: g_s_EndScript
+- className: g_s_EndScript
   desc: 현재 실행중인 스크립트를 종료한다.
 
 # CLASS
--
-  className: g_s_CompleteNode
+- className: g_s_CompleteNode
   desc: 현재 진행중인 퀘스트 노드를 완료한다.
