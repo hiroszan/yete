@@ -1,0 +1,21 @@
+using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
+
+using number = System.Double;
+using boolean = System.Boolean;
+
+{{ #each Items }}
+[Description("{{{ Desc }}}")]
+public class {{ ClassName }} : IScriptbleCommand
+{
+  {{ #each Properties }}
+    [JsonProperty(Order = {{ _Add @index 1 }})]
+    [Description("{{{ Desc }}}")]
+    public {{ _ToDeclareExpr }}
+
+  {{ /each }}
+}
+
+{{ /each }}
+

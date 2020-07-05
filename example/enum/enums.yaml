@@ -1,0 +1,33 @@
+#********************************************************
+#*                                                      *
+#*                     REFERENCE                        *
+#*                                                      *
+#********************************************************
+
+# 빌딩 타입
+- enumName: 'BUILDING_TYPE'
+  values:
+    - NONE = 0
+    - PALACE
+    - GOVER
+    - UNION
+    - PUB
+    - SHOP
+    - SPECIAL
+    - RELIGION
+    - TEMPLE
+    - BANK
+    - TRADE
+    - SHIPYARD
+    - DEPART
+    - MANTIC
+    - MAX
+
+# 종교타입
+- enumName: 'RELIGION_TYPE'
+  values:
+    - NONE
+    - CHRISTIANITY
+    - ISLAM
+    - HINDUISM
+    - BUDDHISM

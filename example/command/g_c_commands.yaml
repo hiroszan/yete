@@ -1,0 +1,68 @@
+#********************************************************
+#*                                                      *
+#*                     REFERENCE                        *
+#*                                                      *
+#********************************************************
+#
+#   properties.editor
+#     - IDEditor
+#     - ComboBoxEditor
+#
+#   properties.type
+#     - number
+#     - string
+
+# CLASS
+-
+  className: g_c_DlgChSpeak
+  desc: 지정된 캐릭터가 지정된 대사를 말한다.
+  properties:
+    #
+    - type: number
+      name: ch
+      desc: Character.json ID.
+      default: 21050086
+      editor: IDEditor()
+
+    - type: string
+      name: dlg
+      desc: 지정된 대사
+      default: ""
+
+    - type: number
+      name: pos
+      desc: 대사창 위치
+      default: 2
+      editor: ComboBoxEditor("left", "center", "right")
+
+    - type: number
+      name: animInterval
+      desc: 텍스트 캐릭터가 찍히는 속도 간격. 낮을수록 빠름. (default 0.1초)
+      optional: true
+
+    - type: boolean
+      name: bHideName
+      desc: true 일 경우 이름을 ??? 으로 출력
+      optional: true
+
+    - type: string
+      name: spineAnim
+      desc: 스파인 애니메이션 이름
+
+    - type: number
+      name: color
+      desc: 캐릭터 이름의 색
+      editor: ComboBoxEditor("Emphasize", "Positive", "Negative")
+      optional: true
+
+    - type: number
+      name: spriteDialogType
+      desc: 말풍선의 형태
+      editor: ComboBoxEditor("일반", "화남", "생각 중")
+      optional: true
+
+    - type: number
+      name: textAnimDuration
+      desc: 텍스트 애니메이션 재생 시간, 없으면 글자수만큼 x 1/60
+      editor: ComboBoxEditor("일반", "화남", "생각 중")
+      optional: true

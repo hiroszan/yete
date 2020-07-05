@@ -1,0 +1,11 @@
+using System;
+using System.ComponentModel;
+
+<% root.forEach((item) => { %>
+public enum <%- item.enumName -%> 
+{
+<% item.values.forEach(value => { -%>
+    <%- value %>,
+<% }) -%>
+}
+<% }) %>

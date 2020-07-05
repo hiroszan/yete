@@ -1,0 +1,36 @@
+#********************************************************
+#*                                                      *
+#*                     REFERENCE                        *
+#*                                                      *
+#********************************************************
+#
+#   properties.editor
+#     - IDEditor
+#     - ComboBoxEditor
+#
+#   properties.type
+#     - number
+#     - string
+
+# CLASS
+-
+  className: townAndBldg
+  desc: 현재 유저의 타운과, 건물을 비교한다.
+  properties:
+    #
+    - type: number
+      name: town
+      desc: 타운 cms ID
+      default: 11000001
+      editor: IDEditor()
+
+    - type: BUILDING_TYPE
+      name: bldg
+      desc: 건물 타입 번호
+      default: BUILDING_TYPE.GOVER
+
+    - type: RELIGION_TYPE
+      name: religion
+      desc: 종교 타입 번호
+      optional: true
+

@@ -12,5 +12,5 @@ dist/
 !**/.vscode/launch.template.json
 !**/.vscode/extensions.json
 .idea
-log/
+logs/
 

@@ -1,0 +1,18 @@
+#********************************************************
+#*                                                      *
+#*                     REFERENCE                        *
+#*                                                      *
+#********************************************************
+#
+#   properties.editor
+#     - IDEditor
+#     - ComboBoxEditor
+#
+#   properties.type
+#     - number
+#     - string
+
+# CLASS
+-
+  className: t_s_ExitBldg
+  desc: 현재 건물에 진입한 상태라면, 건물에서 강제로 나가게 한다.
