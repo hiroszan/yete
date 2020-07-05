@@ -19,7 +19,7 @@ const logger = winston_1.createLogger({
         format: 'YYYY-MM-DD HH:mm:ss',
     }), 
     //format.ms(),
-    winston_1.format.errors({ stack: true }), winston_1.format.splat(), winston_1.format.simple()),
+    winston_1.format.errors({ stack: true }), winston_1.format.splat(), winston_1.format.json()),
     transports: [
         new winston_1.transports.Console({
             level: 'info',

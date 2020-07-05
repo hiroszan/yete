@@ -1,0 +1,20 @@
+using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
+
+using number = System.Double;
+using boolean = System.Boolean;
+
+<% root.forEach(classDef => { -%>
+[Description("<%- classDef.desc %>")]
+public class <%- classDef.className %> : IScriptbleCondition
+{
+<% classDef.properties.forEach((property, index) => { -%>
+    [JsonProperty(Order = <%- index + 1 %>)]
+    [Description("<%- property.desc %>")]
+    public <%- helper.declexpr(property) %>;
+
+<% }) -%>
+}
+<% }) -%>
+
