@@ -48,4 +48,8 @@ const logger = createLogger({
   ],
 });
 
+export const setLogLevel = (level: string) => {
+  logger.transports.forEach((transport) => (transport.level = level));
+};
+
 export default logger;

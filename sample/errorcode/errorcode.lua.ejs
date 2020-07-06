@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+-- COPYRIGHT (C)2017 BY MOTIF CO., LTD. ALL RIGHTS RESERVED.
+-------------------------------------------------------------------------------
+
+--[[---------------------------------------------------------------------------
+
+  Error code.
+
+  1 ~ 9999 : fatal, hack (disconnect immediately)
+
+  100000 ~ 199999 : non-fatal errors
+
+  DO NOT change existing error codes without consulting client error handling.
+
+-----------------------------------------------------------------------------]]
+
+local <%- root.enumName %> = {
+  DISCONNECTED_FROM_SERVER = -2,
+  NOT_ALLOWED_RESEND = -1,
+
+<% root.values.forEach(value => { -%>
+  <%- helper.lua_enumexpr(value) %>
+<% }) -%>
+
+<% root.values.forEach(value => { -%>
+  <%- helper.lua_enumstr(value) %>
+<% }) -%>
+}
+
+return <%- root.enumName %>

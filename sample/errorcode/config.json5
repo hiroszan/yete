@@ -1,0 +1,17 @@
+{
+  log: 'debug', // 'info', 'error'
+  workingDir: './', // (optional) relative from config file
+  helper: './helper',
+  runs: [
+    {
+      ejs: './errorcode.lua.ejs',
+      yaml: ['./errorcode.yaml'],
+      output: './output/errorcode.lua',
+    },
+    {
+      ejs: './errorcode.ts.ejs',
+      yaml: ['./errorcode.yaml'],
+      output: './output/errorcode.ts',
+    },
+  ],
+}

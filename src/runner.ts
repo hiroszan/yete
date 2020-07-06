@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import ejs from 'ejs';
 import micromatch from 'micromatch';
-import { cwd } from 'process';
+import _ from 'lodash';
 
 export default class Runner {
   config: YeteRun;
@@ -34,33 +34,48 @@ export default class Runner {
         const dir = path.dirname(fullpath);
         logger.info('wildcard dir: ', { dir });
 
-        const files = fs.readdirSync(dir).map((fname) => this.posix(path.resolve(dir, fname)));
+        const files = fs
+          .readdirSync(dir)
+          .map((fname) => this.posix(path.resolve(dir, fname)));
         logger.info('wildcard dir files: ', { files, p: yamlpath });
 
         const matches = micromatch(files, yamlpath, { contains: true });
         logger.info('wildcard matches: ', { matches });
 
-        matches.forEach((match) => this.render(template, match));
+        if (matches.length > 0) {
+          this.save(this.renderFromFiles(template, matches));
+        }
       } else {
         // path string
-        this.render(template, yamlpath);
+        this.save(this.renderFromFile(template, yamlpath));
       }
     });
   }
 
-  private render(template: string, yamlpath: string) {
+  private readYaml(yamlpath: string) {
     yamlpath = path.resolve(yamlpath);
-    logger.info('yaml: ', { path: yamlpath });
-
     const structure = fs.readFileSync(yamlpath, 'utf8');
     const obj = YAML.parse(structure);
-    logger.info('yaml object', { root: obj });
+    logger.debug('read yaml object', { path: yamlpath, root: obj });
+    return obj;
+  }
 
-    const content = ejs.render(template, { root: obj, helper: this.helper });
+  private renderFromFiles(template: string, yamlPathes: string[]) {
+    const items = yamlPathes.map((yamlPath) => this.readYaml(yamlPath));
 
-    let fname = path.basename(yamlpath);
-    fname = fname.split('.').slice(0, -1).join('.');
-    const outputPath = path.resolve(this.config.outputDir, fname + this.config.outputExt);
+    const obj = _.chain(items).concat().flatten().value();
+
+    logger.debug('merged yaml object', { root: obj });
+    return ejs.render(template, { root: obj, helper: this.helper });
+  }
+
+  private renderFromFile(template: string, yamlPath: string) {
+    const obj = this.readYaml(yamlPath);
+    return ejs.render(template, { root: obj, helper: this.helper });
+  }
+
+  private save(content: string) {
+    const outputPath = path.resolve(this.config.output);
 
     const dir = path.dirname(outputPath);
     if (!fs.existsSync(dir)) {
@@ -68,6 +83,6 @@ export default class Runner {
     }
 
     fs.writeFileSync(outputPath, content);
-    logger.info('render success: ', { output: outputPath });
+    logger.info('saved success: ', { output: outputPath });
   }
 }

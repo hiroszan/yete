@@ -16,4 +16,4 @@ example/output/
 !**/.vscode/extensions.json
 .idea
 logs/
-
+**/output/

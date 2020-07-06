@@ -1,10 +1,11 @@
 {
   "name": "yete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "yaml + handlebars template engine",
   "main": "app.js",
   "scripts": {
-    "start": "tsc && node ./build/app.js -c \"./example/yete.config.json5\"",
+    "start": "tsc && node ./build/app.js -c \"./sample/complex/config.json5\"",
+    "start:errorcode": "tsc && node ./build/app.js -c \"./sample/errorcode/config.json5\"",
     "build": "tsc",
     "pub": "tsc && pkg --out-path \"publish\" ."
   },
@@ -26,6 +27,7 @@
     "@types/node": "^14.0.13",
     "ejs": "^3.1.3",
     "json5": "^2.1.3",
+    "lodash": "^4.17.15",
     "micromatch": "^4.0.2",
     "winston": "^3.2.1",
     "winston-console-format": "^1.0.5",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "@types/ejs": "^3.0.4",
     "@types/json5": "^0.0.30",
+    "@types/lodash": "^4.14.157",
     "@types/micromatch": "^4.0.1",
     "@types/yargs": "^15.0.5"
   }

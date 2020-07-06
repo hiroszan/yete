@@ -1,0 +1,24 @@
+{
+  log: 'debug', // 'info', 'error'
+  workingDir: './', // (optional) relative from config file
+  helper: './helper',
+  runs: [
+    {
+      ejs: 'ejs/condition.ejs',
+      yaml: ['yaml/conditions.yaml'],
+      output: 'output/conditions.cs',
+    },
+    {
+      ejs: 'ejs/enum.ejs',
+      yaml: ['yaml/enums.yaml'],
+      outputDir: 'example/output',
+      output: 'output/enums.cs',
+    },
+    {
+      ejs: 'ejs/command.ejs',
+      yaml: ['yaml/*_commands.yaml'],
+      outputDir: 'output',
+      output: 'output/commands.cs',
+    },
+  ],
+}

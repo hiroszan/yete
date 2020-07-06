@@ -1,16 +1,16 @@
-import logger from './logger';
+import logger, { setLogLevel } from './logger';
 import fs from 'fs';
 import path from 'path';
 import yargs = require('yargs');
 import JSON5 from 'json5';
 import Runner from './runner';
-import { exit } from 'process';
+import process from 'process';
 
 const usage = `=======================================================================
 
   Yaml - Ejs Template Engine
 
-  Usage:  
+  Usage:
     yete -c "./example/yete.config.json5"
 
 -----------------------------------------------------------------------`;
@@ -19,30 +19,48 @@ const argv = yargs.usage(usage).options({
 }).argv;
 
 const configPath = path.resolve(argv.c);
+const configDir = path.dirname(configPath);
+
 if (!fs.existsSync(configPath)) {
   logger.error('file not found.', { path: configPath });
-  exit(1);
+  process.exit(1);
 }
 
 try {
   // load config
   const config: YeteConfig = JSON5.parse(fs.readFileSync(configPath, 'utf8'));
 
+  if (config.log) {
+    setLogLevel(config.log);
+  }
+
+  // setup working directory
+  if (config.workingDir) {
+    if (path.isAbsolute(config.workingDir)) {
+      process.chdir(config.workingDir);
+      logger.info('chdir: ' + config.workingDir);
+    } else {
+      let dir = path.relative(config.workingDir, configDir);
+      dir = path.resolve(dir);
+      process.chdir(dir);
+      logger.info('chdir: ' + dir);
+    }
+  }
+
   // load helper
   let helper = {};
   if (config.helper) {
     let fullpath = path.resolve(config.helper);
-    let relpath = path.relative(__dirname, fullpath);
-    logger.info('helper js: ', { path: fullpath, rel: relpath });
+    logger.info('helper js: ', { path: fullpath });
 
-    helper = require(relpath);
+    helper = require(fullpath);
     logger.info('helper', helper);
   }
 
   // run runners
   const runners = config.runs.map((run) => new Runner(run, helper));
   runners.forEach((runner) => runner.run());
-  exit(0);
+  process.exit(0);
 } catch (error) {
   logger.error(error);
 }
