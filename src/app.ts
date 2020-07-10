@@ -11,14 +11,21 @@ const usage = `=================================================================
   Yaml - Ejs Template Engine
 
   Usage:
-    yete -c "./example/yete.config.json5"
+    yete (if exists a config.json5 file in same folder)
+    yete -c "./example/config.json5"
 
 -----------------------------------------------------------------------`;
 const argv = yargs.usage(usage).options({
-  c: { type: 'string', alias: 'config', required: true },
+  c: { type: 'string', alias: 'config' },
 }).argv;
 
-const configPath = path.resolve(argv.c);
+let configPath;
+if (argv.c) {
+  configPath = path.resolve(argv.c);
+} else {
+  configPath = path.resolve(process.cwd(), 'config.json5');
+}
+
 const configDir = path.dirname(configPath);
 
 if (!fs.existsSync(configPath)) {
