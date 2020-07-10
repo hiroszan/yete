@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV || 'development';
 const logDir = 'logs';
 
 const dailyRotateFileTransport = new transports.DailyRotateFile({
-  level: 'debug',
+  level: 'info',
   filename: `${logDir}/%DATE%.log`,
   datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
