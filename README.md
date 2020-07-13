@@ -24,7 +24,7 @@ yarn pub
 
 ## How to use
 
-[Check Configuration section first](Configuration)
+[Check Configuration section first](#configuration)
 
 ### Command
 
@@ -110,19 +110,19 @@ export class MyClass {
 
 ### Format (Json5)
 
-```json
+```json5
 {
-  "log": "debug", // 'info', 'error'
-  "workingDir": "./", // (optional) if undefined, use application path
-  "helper": "<your helper .js script - plz write without extension>",
-  "runs": [
+  log: 'debug', // 'info', 'error'
+  workingDir: './', // (optional) if undefined, use application path
+  helper: '<your helper .js script - plz write without extension>',
+  runs: [
     {
-      "ejs": "<template, single file - not permit wildcard>",
-      "yaml": ["<definition, multiple files - permitted wildcard>"],
-      "outputDir": "<result path>",
-      "outputExt": "<file extension>"
-    }
-  ]
+      ejs: '<template, single file - not permit wildcard>',
+      yaml: ['<definition, multiple files - permitted wildcard>'],
+      outputDir: '<result path>',
+      outputExt: '<file extension>',
+    },
+  ],
 }
 ```
 
