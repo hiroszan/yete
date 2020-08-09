@@ -24,13 +24,12 @@ export default class Runner {
     // const { ejs, yaml, outputDir, outputExt } = this.config;
 
     // read includes
-    if (this.config.yaml.import) {
-      const includes = this.config.yaml.import;
+    if (this.config.yaml.includes) {
+      const includes = this.config.yaml.includes;
       for (const key in includes) {
         let yamlpath = includes[key];
-        yamlpath = path.resolve(yamlpath);
-
         const parsed = this.readYaml(yamlpath);
+        logger.info('include - parsed: ', { path: yamlpath });
         this.mapImport[key] = parsed;
       }
     }
@@ -48,7 +47,9 @@ export default class Runner {
         const dir = path.dirname(fullpath);
         logger.info('wildcard dir: ', { dir });
 
-        const files = fs.readdirSync(dir).map((fname) => this.posix(path.resolve(dir, fname)));
+        const files = fs
+          .readdirSync(dir)
+          .map((fname) => this.posix(path.resolve(dir, fname)));
         logger.info('wildcard dir files: ', { files, p: yamlpath });
 
         const matches = micromatch(files, yamlpath, { contains: true });
@@ -78,12 +79,20 @@ export default class Runner {
     const obj = _.chain(items).concat().flatten().value();
 
     logger.debug('merged yaml object', { root: obj });
-    return ejs.render(template, { root: obj, helper: this.helper, import: this.mapImport });
+    return ejs.render(template, {
+      root: obj,
+      helper: this.helper,
+      includes: this.mapImport,
+    });
   }
 
   private renderFromFile(template: string, yamlPath: string) {
     const obj = this.readYaml(yamlPath);
-    return ejs.render(template, { root: obj, helper: this.helper, import: this.mapImport });
+    return ejs.render(template, {
+      root: obj,
+      helper: this.helper,
+      includes: this.mapImport,
+    });
   }
 
   private save(content: string) {
@@ -91,7 +100,7 @@ export default class Runner {
 
     const dir = path.dirname(outputPath);
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
+      fs.mkdirSync(dir, { recursive: true });
     }
 
     fs.writeFileSync(outputPath, content);

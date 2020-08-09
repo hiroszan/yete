@@ -8,7 +8,7 @@ declare interface YeteConfig {
 declare interface YeteRun {
   ejs: string;
   yaml: {
-    import?: {
+    includes?: {
       [key: string]: string;
     };
     files: string[];
