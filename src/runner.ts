@@ -9,6 +9,7 @@ import _ from 'lodash';
 export default class Runner {
   config: YeteRun;
   helper: any;
+  mapImport: { [key: string]: any } = {};
 
   constructor(config: YeteRun, helper: any) {
     this.config = config;
@@ -21,11 +22,24 @@ export default class Runner {
 
   run() {
     // const { ejs, yaml, outputDir, outputExt } = this.config;
+
+    // read includes
+    if (this.config.yaml.import) {
+      const includes = this.config.yaml.import;
+      for (const key in includes) {
+        let yamlpath = includes[key];
+        yamlpath = path.resolve(yamlpath);
+
+        const parsed = this.readYaml(yamlpath);
+        this.mapImport[key] = parsed;
+      }
+    }
+
     let fpath = path.resolve(this.config.ejs);
     const template = fs.readFileSync(fpath, 'utf8');
     logger.info('ejs: ', { path: fpath });
 
-    this.config.yaml.forEach((yamlpath) => {
+    this.config.yaml.files.forEach((yamlpath) => {
       if (yamlpath.indexOf('*') != -1) {
         // path wildcard
         yamlpath = this.posix(yamlpath);
@@ -34,9 +48,7 @@ export default class Runner {
         const dir = path.dirname(fullpath);
         logger.info('wildcard dir: ', { dir });
 
-        const files = fs
-          .readdirSync(dir)
-          .map((fname) => this.posix(path.resolve(dir, fname)));
+        const files = fs.readdirSync(dir).map((fname) => this.posix(path.resolve(dir, fname)));
         logger.info('wildcard dir files: ', { files, p: yamlpath });
 
         const matches = micromatch(files, yamlpath, { contains: true });
@@ -66,12 +78,12 @@ export default class Runner {
     const obj = _.chain(items).concat().flatten().value();
 
     logger.debug('merged yaml object', { root: obj });
-    return ejs.render(template, { root: obj, helper: this.helper });
+    return ejs.render(template, { root: obj, helper: this.helper, import: this.mapImport });
   }
 
   private renderFromFile(template: string, yamlPath: string) {
     const obj = this.readYaml(yamlPath);
-    return ejs.render(template, { root: obj, helper: this.helper });
+    return ejs.render(template, { root: obj, helper: this.helper, import: this.mapImport });
   }
 
   private save(content: string) {
